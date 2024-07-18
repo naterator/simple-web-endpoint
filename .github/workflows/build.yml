@@ -21,11 +21,17 @@ jobs:
         goos: [linux, windows, darwin]
         goarch: [amd64, arm64]
     steps:
-      - uses: actions/checkout@v4
-      - uses: wangyoucao577/go-release-action@v1.51
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set BUILD_TIME env
+        run: echo BUILD_TIME=$(date -u +%Y%m%d-%H%M) >> ${GITHUB_ENV}
+      - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           goos: ${{ matrix.goos }}
           goarch: ${{ matrix.goarch }}
-          goversion: 1.22
-          binary_name: "simple-web-endpoint"
+          overwrite: true
+          sha256sum: true
+          asset_name: ${BINARY_NAME}-${{ env.BUILD_TIME }}-${{ matrix.goos }}-${{ matrix.goarch }}
+          compress_assets: false
+          
