@@ -23,8 +23,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Set Build Time
-        run:  echo BUILD_TIME=$(date -u +%Y%m%d%H%M) >> ${GITHUB_ENV}
       - name: Build
         uses: wangyoucao577/go-release-action@v1
         with:
@@ -34,5 +32,5 @@ jobs:
           overwrite: true
           sha256sum: true
           md5sum: false
-          asset_name: ${BINARY_NAME}-${{ env.BUILD_TIME }}-${{ matrix.goos }}-${{ matrix.goarch }}
+          asset_name: simple-web-endpoint-${{ matrix.goos }}-${{ matrix.goarch }}
           compress_assets: false
